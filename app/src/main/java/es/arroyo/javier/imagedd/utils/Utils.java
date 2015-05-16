@@ -1,22 +1,15 @@
 package es.arroyo.javier.imagedd.utils;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.telephony.TelephonyManager;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -25,8 +18,6 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.net.URLEncoder;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -69,14 +60,13 @@ public class Utils {
         // using Environment.getExternalStorageState() before doing this.
 
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "CarrerasHoffman");
+                Environment.DIRECTORY_PICTURES), "ImageDragAndDrop");
         // This location works best if you want the created images to be shared
         // between applications and persist after your app has been uninstalled.
 
         // Create the storage directory if it does not exist
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
-                Log.d("CarrerasHoffman", "failed to create directory");
                 return null;
             }
         }
@@ -117,65 +107,6 @@ public class Utils {
         }
     }
 
-    ////---------------------------------------------------------------------------------------------
-    //// MD5
-    ////---------------------------------------------------------------------------------------------
-    //public static final String md5(final String s) {
-    //    final String MD5 = "MD5";
-    //    try {
-    //        // Create MD5 Hash
-    //        MessageDigest digest = MessageDigest
-    //                .getInstance(MD5);
-    //        digest.update(s.getBytes());
-    //        byte messageDigest[] = digest.digest();
-//
-    //        // Create Hex String
-    //        StringBuilder hexString = new StringBuilder();
-    //        for (byte aMessageDigest : messageDigest) {
-    //            String h = Integer.toHexString(0xFF & aMessageDigest);
-    //            while (h.length() < 2)
-    //                h = "0" + h;
-    //            hexString.append(h);
-    //        }
-    //        return hexString.toString();
-//
-    //    } catch (NoSuchAlgorithmException e) {
-    //        e.printStackTrace();
-    //    }
-    //    return "";
-    //}
-//
-    ////---------------------------------------------------------------------------------------------
-    //// GET CURRENT DATE
-    ////---------------------------------------------------------------------------------------------
-    //public static String getCurrentDate() {
-    //    SimpleDateFormat sdf = new SimpleDateFormat("dd_MM_yyyy_HH_mm");
-    //    String currentDateandTime = sdf.format(new Date());
-    //    return currentDateandTime;
-    //}
-//
-    ////---------------------------------------------------------------------------------------------
-    //// DELETE IMAGE
-    ////---------------------------------------------------------------------------------------------
-    //public static void deleteImage(String path) {
-    //    try {
-    //        File file = new File(path);
-    //        boolean deleted = file.delete();
-    //    } catch (Exception e) {
-    //        e.printStackTrace();
-    //    }
-//
-    //}
-//
-    ////-----------------------------------------------------------------------------
-    //// GET IMEI
-    ////-----------------------------------------------------------------------------
-    //public static String getIMEI(Context context) {
-    //    TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-    //    return telephonyManager.getDeviceId();
-    //}
-//
-//
     //-----------------------------------------------------------------------------
     // DISPLAY IMAGES WITH LOADING
     //-----------------------------------------------------------------------------
@@ -204,26 +135,7 @@ public class Utils {
             }
         });
     }
-//
-    //public static void showDialogError(final Activity activity, String error, final boolean finalizarActivity) {
-    //    AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
-    //    alertDialog.setMessage(error);
-    //    alertDialog.setButton(activity.getResources().getString(R.string.accept), new DialogInterface.OnClickListener() {
-    //        public void onClick(DialogInterface dialog, int which) {
-    //            if(finalizarActivity) {
-    //                activity.finish();
-    //            }
-    //            dialog.dismiss();
-    //        }
-    //    });
-    //    //alertDialog.setButton2("Cancel", new DialogInterface.OnClickListener() {
-    //    //    public void onClick(DialogInterface dialog, int which) {
-    //    //        Context context = getApplicationContext();
-    //    //        Toast.makeText(context, "canceled" , Toast.LENGTH_SHORT).show();
-    //    //    } });
-    //    alertDialog.show();
-    //}
-//
+
    //------------------------------------------------------------------------------------------
    // GET REAL PATH FROM URI
    //------------------------------------------------------------------------------------------

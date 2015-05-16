@@ -19,4 +19,4 @@
         android:pivotX="100%"
         android:pivotY="-20%"
         android:duration="500" />
-</set><!-- From: file:/C:/Users/JARROYO/Desktop/AndroidTVxample/ImageDradAndDrop/app/src/main/res/anim/rotate_center_to_right.xml -->
+</set><!-- From: file:/Users/JavierArroyo/Desktop/AndroidProjectsGit/ImageDradAndDrop/app/src/main/res/anim/rotate_center_to_right.xml -->
