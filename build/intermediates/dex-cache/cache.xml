@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\JARROYO\Desktop\AndroidTVxample\ImageDradAndDrop\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.0.0\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4e86306289ace4aa0cfec44a05ed2b410d36989d">
+        <dex dex="C:\Users\JARROYO\Desktop\AndroidTVxample\ImageDradAndDrop\app\build\intermediates\pre-dexed\debug\classes-dc6acb92f5accb8b45579cbb1db1d6729c1bd5ea.jar" />
+    </item>
+    <item
+        jar="C:\Users\JARROYO\Desktop\AndroidTVxample\ImageDradAndDrop\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.0.0\libs\internal_impl-22.0.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="b5b92f469d515a13d778900f6d50c03d12f35504">
+        <dex dex="C:\Users\JARROYO\Desktop\AndroidTVxample\ImageDradAndDrop\app\build\intermediates\pre-dexed\debug\internal_impl-22.0.0-25df7bb61df45bc8eb65da84a340e830ed39d8e4.jar" />
+    </item>
+    <item
+        jar="C:\Users\JARROYO\Desktop\AndroidTVxample\ImageDradAndDrop\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.0.0\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="d84409890828e07d344a3b9b1da545dba9897b51">
+        <dex dex="C:\Users\JARROYO\Desktop\AndroidTVxample\ImageDradAndDrop\app\build\intermediates\pre-dexed\debug\classes-fc9f83afadc36d6d1cf9954d00f04fa07abad7eb.jar" />
+    </item>
+    <item
+        jar="C:\Users\JARROYO\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\22.0.0\support-annotations-22.0.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="685d0b2c590447e85284ed84712cb363ba04eff8">
+        <dex dex="C:\Users\JARROYO\Desktop\AndroidTVxample\ImageDradAndDrop\app\build\intermediates\pre-dexed\debug\support-annotations-22.0.0-35c8943ca5bf21c10d0e409ee3d08078d82f2a56.jar" />
+    </item>
+    <item
+        jar="C:\Users\JARROYO\Desktop\AndroidTVxample\ImageDradAndDrop\app\libs\universal-image-loader-1.9.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="a85588bec3e2c4584d593d3f15df1677321bca72">
+        <dex dex="C:\Users\JARROYO\Desktop\AndroidTVxample\ImageDradAndDrop\app\build\intermediates\pre-dexed\debug\universal-image-loader-1.9.3-6becda5a924fa6c692e1d4cb80fe61e526524807.jar" />
+    </item>
+
+</items>

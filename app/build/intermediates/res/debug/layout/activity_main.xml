@@ -1,0 +1,143 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <!-- IMAGE VIEW BLUR BACKGROUND-->
+    <ImageView
+        android:id="@+id/imageViewBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" />
+
+    <!-- IMAGE VIEW PHOTO-->
+    <ImageView
+        android:id="@+id/imageViewPhoto"
+        android:layout_width="200dp"
+        android:layout_centerInParent="true"
+        android:layout_height="300dp" />
+    <!--ICON GALLERY-->
+    <RelativeLayout
+        android:id="@+id/layoutGallery"
+        android:layout_width="80dp"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_height="80dp">
+
+        <ImageView
+            android:id="@+id/imageViewCircleGallery"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:visibility="invisible"
+            android:layout_centerInParent="true"
+            android:src="@drawable/circle_gallery" />
+
+
+        <ImageView
+            android:id="@+id/imageViewGallery"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_gallery"
+            android:onClick="onClickMainActivity" />
+    </RelativeLayout>
+
+    <!--SHARE-->
+    <RelativeLayout
+        android:id="@+id/layoutShare"
+        android:layout_width="80dp"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_height="80dp">
+
+        <ImageView
+            android:id="@+id/imageViewCircleShare"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:visibility="invisible"
+            android:layout_centerInParent="true"
+            android:src="@drawable/circle_gallery" />
+
+
+        <ImageView
+            android:id="@+id/imageViewShare"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_share"
+            android:onClick="onClickMainActivity" />
+    </RelativeLayout>
+
+    <!--ICON CAMERA-->
+    <RelativeLayout
+        android:id="@+id/layoutCamera"
+        android:layout_width="80dp"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_height="80dp">
+
+        <ImageView
+            android:id="@+id/imageViewCircleCamera"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:visibility="invisible"
+            android:layout_centerInParent="true"
+            android:src="@drawable/circle_camera" />
+
+        <ImageView
+            android:id="@+id/imageViewCamera"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_camera"
+            android:layout_centerInParent="true"
+            android:onClick="onClickMainActivity" />
+    </RelativeLayout>
+
+    <!--ICON DELETE-->
+    <RelativeLayout
+        android:id="@+id/layoutDelete"
+        android:layout_width="80dp"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_centerHorizontal="true"
+        android:layout_height="80dp">
+
+        <ImageView
+            android:id="@+id/imageViewCircleDelete"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:visibility="invisible"
+            android:layout_centerInParent="true"
+            android:src="@drawable/circle_delete" />
+
+        <ImageView
+            android:id="@+id/imageViewDelete"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:src="@drawable/ic_delete"
+            android:layout_centerInParent="true"
+            android:onClick="onClickMainActivity" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/imageViewTakePhoto"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:onClick="onClickMainActivity"
+        android:layout_height="150dp"
+        android:src="@drawable/ic_camera"
+        android:scaleType="centerInside" />
+
+
+</RelativeLayout>
+<!-- From: file:/C:/Users/JARROYO/Desktop/AndroidTVxample/ImageDradAndDrop/app/src/main/res/layout/activity_main.xml -->
