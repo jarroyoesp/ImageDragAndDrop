@@ -1,5 +1,9 @@
 package es.arroyo.javier.imagedd.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.ClipData;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -8,15 +12,17 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -41,6 +47,7 @@ public class MainActivity extends ActionBarActivity {
     private ImageView imageViewCamera;
     private ImageView imageViewDelete;
     private ImageView imageViewPhoto;
+    private ImageView imageViewExpanded;
     private ImageView imageViewShare;
     private ImageView imageViewCircleGallery;
     private ImageView imageViewCircleCamera;
@@ -55,6 +62,7 @@ public class MainActivity extends ActionBarActivity {
     //Data
     //----
     private Uri fileUri;
+    private Uri selectedImageUri;
     private int mActivePointerId = 0;
     private Bitmap bitmap;
     private RelativeLayout.LayoutParams layoutParamsImage;
@@ -72,10 +80,20 @@ public class MainActivity extends ActionBarActivity {
     private Animation animSizeToOne;
     private Animation animReduceToZeroUp;
     private Animation animSizeToOneUp;
+    private Animator mCurrentAnimator;
+
+    private int mShortAnimationDuration = 400;
 
     //Drag and Drop
     //-------------
     private MyDragShadowBuilder shadowBuilder;
+
+    //ZOOM
+    final Rect startBounds = new Rect();
+    final Rect finalBounds = new Rect();
+    final Point globalOffset = new Point();
+    private float startScale;
+    private final float startScaleFinal =0f;
 
 
     //-------------------------------------------------------------------------------------
@@ -93,6 +111,7 @@ public class MainActivity extends ActionBarActivity {
         imageViewCamera = (ImageView) findViewById(R.id.imageViewCamera);
         imageViewDelete = (ImageView) findViewById(R.id.imageViewDelete);
         imageViewPhoto = (ImageView) findViewById(R.id.imageViewPhoto);
+        imageViewExpanded = (ImageView) findViewById(R.id.expanded_image);
         imageViewShare = (ImageView) findViewById(R.id.imageViewShare);
         imageViewCircleGallery = (ImageView) findViewById(R.id.imageViewCircleGallery);
         imageViewCircleCamera = (ImageView) findViewById(R.id.imageViewCircleCamera);
@@ -120,7 +139,16 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public boolean onLongClick(View v) {
                 //imageViewPhoto.startAnimation(animScale);
-                startDragAndDrop();
+                //startDragAndDrop();
+                zoomImageFromThumb(imageViewPhoto, selectedImageUri);
+                return true;
+            }
+        });
+
+        imageViewExpanded.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick (View view) {
+                zoomOut(imageViewPhoto);
                 return true;
             }
         });
@@ -282,7 +310,7 @@ public class MainActivity extends ActionBarActivity {
                     }
                 }
 
-                Uri selectedImageUri;
+
                 String path = "";
                 if (isCamera) {
                     selectedImageUri = fileUri;
@@ -294,6 +322,7 @@ public class MainActivity extends ActionBarActivity {
                 }
                 displayBlurImageInBackground(selectedImageUri);
                 displayImagePhoto(selectedImageUri);
+
 
             } else if (resultCode == RESULT_CANCELED) {
                 // User cancelled the image capture
@@ -332,7 +361,8 @@ public class MainActivity extends ActionBarActivity {
             bitmap = Utils.getResizedBitmap(bitmap, 0.5f);
             imageViewPhoto.setVisibility(View.VISIBLE);
             imageViewPhoto.setImageBitmap(bitmap);
-            Utils.displayImageLoading(imageUri.getPath(),imageViewPhoto, null);
+            //imageViewExpanded.setImageBitmap(bitmap);
+            //Utils.displayImageLoading(imageUri.getPath(),imageViewPhoto, null);
             imageViewTakePhoto.setVisibility(View.GONE);
         } catch (Exception e) {
             Toast.makeText(MainActivity.this, getString(R.string.error_getting_photo), Toast.LENGTH_SHORT).show();
@@ -419,6 +449,9 @@ public class MainActivity extends ActionBarActivity {
                     startAnimation(imageViewPhoto, animSizeToOneUp);
                     startAnimation(imageViewCircleShare, animResizeDownCircle);
                     break;
+
+                default:
+                    zoomImageFromThumb(imageViewPhoto, selectedImageUri);
             }
         }
 
@@ -519,5 +552,166 @@ public class MainActivity extends ActionBarActivity {
             bitmap.recycle();
         }
         animRotateRightToCenter.cancel();
+    }
+
+    //---------------------------------------------------------------------
+    // ZOOM IMAGE FROM THUMB
+    //---------------------------------------------------------------------
+    private void zoomImageFromThumb(final View thumbView, Uri uri) {
+        // If there's an animation in progress, cancel it
+        // immediately and proceed with this one.
+        if (mCurrentAnimator != null) {
+            mCurrentAnimator.cancel();
+        }
+
+        // Load the high-resolution "zoomed-in" image.
+        final ImageView imageViewExpanded = (ImageView) findViewById(
+                R.id.expanded_image);
+        try {
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+            bitmap = Utils.getResizedBitmap(bitmap, 0.5f);
+            imageViewExpanded.setImageBitmap(bitmap);
+        }catch (Exception e){
+
+        }
+
+
+       configViewBounds(thumbView);
+
+        // Hide the thumbnail and show the zoomed-in view. When the animation
+        // begins, it will position the zoomed-in view in the place of the
+        // thumbnail.
+        thumbView.setAlpha(0f);
+        imageViewExpanded.setVisibility(View.VISIBLE);
+
+        // Set the pivot point for SCALE_X and SCALE_Y transformations
+        // to the top-left corner of the zoomed-in view (the default
+        // is the center of the view).
+        imageViewExpanded.setPivotX(0f);
+        imageViewExpanded.setPivotY(0f);
+
+        // Construct and run the parallel animation of the four translation and
+        // scale properties (X, Y, SCALE_X, and SCALE_Y).
+        AnimatorSet set = new AnimatorSet();
+        set
+                .play(ObjectAnimator.ofFloat(imageViewExpanded, View.X,
+                        startBounds.left, finalBounds.left))
+                .with(ObjectAnimator.ofFloat(imageViewExpanded, View.Y,
+                        startBounds.top, finalBounds.top))
+                .with(ObjectAnimator.ofFloat(imageViewExpanded, View.SCALE_X,
+                        startScale, 1f)).with(ObjectAnimator.ofFloat(imageViewExpanded,
+                View.SCALE_Y, startScale, 1f));
+        set.setDuration(mShortAnimationDuration);
+        set.setInterpolator(new DecelerateInterpolator());
+        set.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mCurrentAnimator = null;
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                mCurrentAnimator = null;
+            }
+        });
+        set.start();
+        mCurrentAnimator = set;
+
+        // Upon clicking the zoomed-in image, it should zoom back down
+        // to the original bounds and show the thumbnail instead of
+        // the expanded image.
+        final float startScaleFinal = startScale;
+        imageViewExpanded.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick (View view) {
+                zoomOut(thumbView);
+                return true;
+            }
+        });
+    }
+
+    private void configViewBounds(View thumbView){
+        // Calculate the starting and ending bounds for the zoomed-in image.
+        // This step involves lots of math. Yay, math.
+
+
+        // The start bounds are the global visible rectangle of the thumbnail,
+        // and the final bounds are the global visible rectangle of the container
+        // view. Also set the container view's offset as the origin for the
+        // bounds, since that's the origin for the positioning animation
+        // properties (X, Y).
+        thumbView.getGlobalVisibleRect(startBounds);
+        findViewById(R.id.container)
+                .getGlobalVisibleRect(finalBounds, globalOffset);
+        startBounds.offset(-globalOffset.x, -globalOffset.y);
+        finalBounds.offset(-globalOffset.x, -globalOffset.y);
+
+        // Adjust the start bounds to be the same aspect ratio as the final
+        // bounds using the "center crop" technique. This prevents undesirable
+        // stretching during the animation. Also calculate the start scaling
+        // factor (the end scaling factor is always 1.0).
+
+        if ((float) finalBounds.width() / finalBounds.height()
+                > (float) startBounds.width() / startBounds.height()) {
+            // Extend start bounds horizontally
+            startScale = (float) startBounds.height() / finalBounds.height();
+            float startWidth = startScale * finalBounds.width();
+            float deltaWidth = (startWidth - startBounds.width()) / 2;
+            startBounds.left -= deltaWidth;
+            startBounds.right += deltaWidth;
+        } else {
+            // Extend start bounds vertically
+            startScale = (float) startBounds.width() / finalBounds.width();
+            float startHeight = startScale * finalBounds.height();
+            float deltaHeight = (startHeight - startBounds.height()) / 2;
+            startBounds.top -= deltaHeight;
+            startBounds.bottom += deltaHeight;
+        }
+    }
+
+
+    // ZOOM OUT
+    private void zoomOut(final View thumbView){
+        if (mCurrentAnimator != null) {
+            mCurrentAnimator.cancel();
+        }
+
+        // Animate the four positioning/sizing properties in parallel,
+        // back to their original values.
+        AnimatorSet set = new AnimatorSet();
+        set.play(ObjectAnimator
+                .ofFloat(imageViewExpanded, View.X, startBounds.left))
+                .with(ObjectAnimator
+                        .ofFloat(imageViewExpanded,
+                                View.Y,startBounds.top))
+                .with(ObjectAnimator
+                        .ofFloat(imageViewExpanded,
+                                View.SCALE_X, startScaleFinal))
+                .with(ObjectAnimator
+                        .ofFloat(imageViewExpanded,
+                                View.SCALE_Y, startScaleFinal));
+        set.setDuration(mShortAnimationDuration);
+        set.setInterpolator(new DecelerateInterpolator());
+        set.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                thumbView.setAlpha(1f);
+                imageViewExpanded.setVisibility(View.GONE);
+                mCurrentAnimator = null;
+
+                startDragAndDrop();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                thumbView.setAlpha(1f);
+                imageViewExpanded.setVisibility(View.GONE);
+                mCurrentAnimator = null;
+            }
+        });
+        set.start();
+        mCurrentAnimator = set;
+
+
     }
 }

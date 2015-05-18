@@ -165,6 +165,8 @@
     <!-- From: file:/Users/JavierArroyo/Desktop/AndroidProjectsGit/ImageDradAndDrop/app/src/main/res/values/integer.xml -->
     <eat-comment/>
     <item format="integer" name="anim_duration" type="integer">200</item>
+    <integer name="card_flip_time_full">300</integer>
+    <integer name="card_flip_time_half">150</integer>
     <!-- From: file:/Users/JavierArroyo/Desktop/AndroidProjectsGit/ImageDradAndDrop/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/res/values/values.xml -->
     <eat-comment/>
     <string name="abc_action_bar_home_description">Navigate home</string>
