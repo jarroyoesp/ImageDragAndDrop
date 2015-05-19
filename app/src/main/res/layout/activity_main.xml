@@ -18,31 +18,32 @@
     <!-- IMAGE VIEW PHOTO-->
     <ImageView
         android:id="@+id/imageViewPhoto"
-        android:layout_width="200dp"
+        android:layout_width="150dp"
         android:layout_centerInParent="true"
-        android:layout_height="300dp" />
+        android:layout_height="200dp" />
 
     <ImageView
         android:id="@+id/expanded_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible" />
+        />
     <!--ICON GALLERY-->
     <RelativeLayout
         android:id="@+id/layoutGallery"
-        android:layout_width="80dp"
+        android:layout_width="100dp"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
-        android:layout_height="80dp">
+        android:layout_height="260dp">
 
         <ImageView
             android:id="@+id/imageViewCircleGallery"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerHorizontal="true"
             android:visibility="invisible"
-            android:layout_centerInParent="true"
+            android:layout_alignParentTop="true"
             android:src="@drawable/circle_gallery" />
 
 
@@ -50,7 +51,8 @@
             android:id="@+id/imageViewGallery"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
             android:src="@drawable/ic_gallery"
             android:onClick="onClickMainActivity" />
     </RelativeLayout>
@@ -58,19 +60,20 @@
     <!--SHARE-->
     <RelativeLayout
         android:id="@+id/layoutShare"
-        android:layout_width="80dp"
+        android:layout_width="100dp"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
-        android:layout_height="80dp">
+        android:layout_height="160dp">
 
         <ImageView
             android:id="@+id/imageViewCircleShare"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:visibility="invisible"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
             android:src="@drawable/circle_gallery" />
 
 
@@ -78,7 +81,8 @@
             android:id="@+id/imageViewShare"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
             android:src="@drawable/ic_share"
             android:onClick="onClickMainActivity" />
     </RelativeLayout>
@@ -86,19 +90,20 @@
     <!--ICON CAMERA-->
     <RelativeLayout
         android:id="@+id/layoutCamera"
-        android:layout_width="80dp"
+        android:layout_width="100dp"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
-        android:layout_height="80dp">
+        android:layout_height="260dp">
 
         <ImageView
             android:id="@+id/imageViewCircleCamera"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:visibility="invisible"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
             android:src="@drawable/circle_camera" />
 
         <ImageView
@@ -106,7 +111,8 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/ic_camera"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
             android:onClick="onClickMainActivity" />
     </RelativeLayout>
 
