@@ -22,8 +22,10 @@ import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -37,9 +39,12 @@ import es.arroyo.javier.imagedd.utils.Utils;
 
 
 public class MainActivity extends ActionBarActivity {
+
+
     //Constants
     //---------
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+    private static final int MAX_ROTATION = 20;
 
     //View
     //----
@@ -82,9 +87,14 @@ public class MainActivity extends ActionBarActivity {
     private Animation animSizeToOne;
     private Animation animReduceToZeroUp;
     private Animation animSizeToOneUp;
+    private Animation animAlphaZeroToOne;
+    private Animation animAlphaOneToZero;
+    private Animation animMoveViewToTop;
+    private Animation animMoveViewToBottom;
     private Animator mCurrentAnimator;
 
-    private int mShortAnimationDuration = 400;
+    private int mShortAnimationDuration = 500;
+    private int durationZoom = 500;
 
     //Drag and Drop
     //-------------
@@ -232,6 +242,22 @@ public class MainActivity extends ActionBarActivity {
         animSizeToOneUp= AnimationUtils.loadAnimation(this,
                 R.anim.size_to_one_up);
         animSizeToOneUp.setFillAfter(true);
+
+        animAlphaZeroToOne= AnimationUtils.loadAnimation(this,
+                R.anim.alpha_zero_to_one);
+        animAlphaZeroToOne.setFillAfter(true);
+
+        animAlphaOneToZero= AnimationUtils.loadAnimation(this,
+                R.anim.alpha_one_to_zero);
+        animAlphaOneToZero.setFillAfter(true);
+
+        animMoveViewToTop= AnimationUtils.loadAnimation(this,
+                R.anim.move_view_to_top);
+        animMoveViewToTop.setFillAfter(true);
+
+        animMoveViewToBottom= AnimationUtils.loadAnimation(this,
+                R.anim.move_view_to_bottom);
+        animMoveViewToBottom.setFillAfter(true);
     }
 
     //------------------------------------------------------------------------------------
@@ -365,12 +391,14 @@ public class MainActivity extends ActionBarActivity {
     private void displayImagePhoto(Uri imageUri) {
         //Utils.displayImageLoading(path, imageViewBackground, null);
         try {
+            mShortAnimationDuration = 0;
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
             bitmap = Utils.getResizedBitmap(bitmap, 0.5f);
             imageViewPhoto.setVisibility(View.VISIBLE);
             imageViewPhoto.setImageBitmap(bitmap);
             zoomImageFromThumb(imageViewPhoto, imageUri);
             imageViewExpanded.setImageBitmap(bitmap);
+            mShortAnimationDuration = 500;
 
             //Utils.displayImageLoading(imageUri.getPath(),imageViewPhoto, null);
             imageViewTakePhoto.setVisibility(View.GONE);
@@ -389,7 +417,7 @@ public class MainActivity extends ActionBarActivity {
 
         ClipData data = ClipData.newPlainText("", "");
         shadowBuilder = new MyDragShadowBuilder(imageViewPhoto);
-        imageViewPhoto.startDrag(data,shadowBuilder , imageViewPhoto, 0);
+        imageViewPhoto.startDrag(data, shadowBuilder, imageViewPhoto, 0);
         //imageViewPhoto.setVisibility(View.GONE);
     }
 
@@ -459,19 +487,19 @@ public class MainActivity extends ActionBarActivity {
             if(viewOnDrag.getId() == R.id.imageViewBackground) {
                 posXCurrentDrag = event.getX() - imageViewPhoto.getWidth()/2;
             }
-            if(isDragOnRightUp){
+            else if(isDragOnRightUp){
                 posXCurrentDrag = posXCurrentDrag+layoutCamera.getX() + event.getX() -imageViewPhoto.getWidth()/2;
 
             }
-            if(isDragOnLefttUp){
+            else if(isDragOnLefttUp){
                 posXCurrentDrag = posXCurrentDrag+layoutGallery.getX() + event.getX() -imageViewPhoto.getWidth()/2;
             }
 
-            if(isDragOnCenterUp){
+            else if(isDragOnCenterUp){
                 posXCurrentDrag = posXCurrentDrag+layoutShare.getX() + event.getX() -imageViewPhoto.getWidth()/2;
             }
 
-            if(isDragOnCenterDown){
+            else if(isDragOnCenterDown){
                 posXCurrentDrag = posXCurrentDrag+layoutDelete.getX() + event.getX() -imageViewPhoto.getWidth()/2;
             }
             imageViewPhoto.setX(posXCurrentDrag);
@@ -486,24 +514,21 @@ public class MainActivity extends ActionBarActivity {
             if(viewOnDrag.getId() == R.id.imageViewBackground) {
                 posYCurrentDrag = event.getY() - imageViewPhoto.getHeight()/2;
             }
-            if(isDragOnRightUp){
+            else if(isDragOnRightUp){
                 posYCurrentDrag = posYCurrentDrag+layoutCamera.getY() + event.getY() -imageViewPhoto.getHeight()/2;
 
             }
 
-            if(isDragOnLefttUp){
+            else if(isDragOnLefttUp){
                 posYCurrentDrag = posYCurrentDrag+layoutGallery.getY() + event.getY() - imageViewPhoto.getHeight()/2;
-
             }
 
-            if(isDragOnCenterUp){
+            else if(isDragOnCenterUp){
                 posYCurrentDrag = posYCurrentDrag+layoutShare.getY() + event.getY() - imageViewPhoto.getHeight()/2;
-
             }
 
-            if(isDragOnCenterDown){
+            else if(isDragOnCenterDown){
                 posYCurrentDrag = posYCurrentDrag+layoutDelete.getY() + event.getY() - imageViewPhoto.getHeight()/2;
-
             }
             imageViewPhoto.setY(posYCurrentDrag);
             return posYCurrentDrag;
@@ -515,13 +540,15 @@ public class MainActivity extends ActionBarActivity {
         //------------------
         private void rotateOnRightUp(float posXCurrentDrag) {
             Log.d("Rotation RIGHT", currentRotation + "");
-            if(isDragOnRightUp && posXCurrentDrag > lastPosX && currentRotation < 20){
-                currentRotation = currentRotation + posXCurrentDrag * 0.002f;
+            if(isDragOnRightUp && posXCurrentDrag > lastPosX && currentRotation < MAX_ROTATION){
+                //currentRotation = currentRotation + posXCurrentDrag * 0.002f;
+                currentRotation = currentRotation + Math.abs(posXCurrentDrag-lastPosX) * 0.1f;
                 imageViewPhoto.setRotation(currentRotation);
             }else{
                 if(isDragOnRightUp &&currentRotation > 0 && posXCurrentDrag < lastPosX){
                     Log.d("Rotation - RIGHT", currentRotation + "");
-                    currentRotation = currentRotation - posXCurrentDrag * 0.002f;
+                    //currentRotation = currentRotation - posXCurrentDrag * 0.002f;
+                    currentRotation = currentRotation - Math.abs(posXCurrentDrag-lastPosX) * 0.1f;
                     if(currentRotation < 0){
                         currentRotation = 0;
                     }
@@ -549,13 +576,15 @@ public class MainActivity extends ActionBarActivity {
         //-------------------
         private void rotateOnLeftUp(float posXCurrentDrag) {
             Log.d("Rotation LEFT", currentRotation + "");
-            if( isDragOnLefttUp && posXCurrentDrag < lastPosX && currentRotation > - 20){
-                currentRotation = currentRotation - posXCurrentDrag * 0.015f;
+            if( isDragOnLefttUp && posXCurrentDrag > 0 && posXCurrentDrag < lastPosX && currentRotation > - MAX_ROTATION){
+                //currentRotation = currentRotation - posXCurrentDrag * 0.02f;
+                currentRotation = currentRotation - Math.abs(posXCurrentDrag-lastPosX) * 0.2f;
                 imageViewPhoto.setRotation(currentRotation);
             }else{
-                if(isDragOnLefttUp && currentRotation < 0 && posXCurrentDrag > lastPosX){
+                if(isDragOnLefttUp && currentRotation < 0&& posXCurrentDrag > 0 && posXCurrentDrag > lastPosX){
                     Log.d("Rotation - LEFT", currentRotation + "");
-                    currentRotation = currentRotation + posXCurrentDrag * 0.015f;
+                    //currentRotation = currentRotation + posXCurrentDrag * 0.02f;
+                    currentRotation = currentRotation + Math.abs(posXCurrentDrag-lastPosX) * 0.2f;
                     if(currentRotation > 0){
                         currentRotation = 0;
                     }
@@ -586,13 +615,18 @@ public class MainActivity extends ActionBarActivity {
             //Log.d(" - LAST X DOWN", lastPosX + "");
             //Log.d(" - Rotation RIGHT DOWN", currentRotation + "");
             //Log.d(" - Width/2", container.getWidth()/2 + "");
-            if(isDragOnCenterDown && posXCurrentDrag > lastPosX && currentRotation < 20 && posXCurrentDrag > 260){
-                currentRotation = currentRotation + posXCurrentDrag * 0.002f;
+
+            int center = container.getWidth()/2 - imageViewPhoto.getWidth()/2;
+
+            if(isDragOnCenterDown&& posXCurrentDrag > 0 && posXCurrentDrag > lastPosX && currentRotation < MAX_ROTATION && posXCurrentDrag > center){
+                //currentRotation = currentRotation + posXCurrentDrag * 0.002f;
+                currentRotation = currentRotation + Math.abs(posXCurrentDrag-lastPosX) * 0.1f;
                 imageViewPhoto.setRotation(currentRotation);
             }else{
-                if(isDragOnCenterDown && currentRotation > 0 && posXCurrentDrag < lastPosX){
+                if(isDragOnCenterDown && currentRotation > 0&& posXCurrentDrag > 0 && posXCurrentDrag < lastPosX){
 
-                    currentRotation = currentRotation - posXCurrentDrag * 0.002f;
+                    //currentRotation = currentRotation - posXCurrentDrag * 0.002f;
+                    currentRotation = currentRotation - Math.abs(posXCurrentDrag-lastPosX) * 0.1f;
                     if(currentRotation < 0){
                         currentRotation = 0;
                     }
@@ -602,20 +636,24 @@ public class MainActivity extends ActionBarActivity {
         }
 
         //------------------
-        // ROTATE ON RIGHT DOWN
+        // ROTATE ON RIGHT LEFT
         //------------------
         private void rotateOnLeftDown(View view, float posXCurrentDrag) {
             //Log.d("POSX RIGHT DOWN", posXCurrentDrag + "");
             //Log.d(" - LAST X DOWN", lastPosX + "");
             //Log.d(" - Rotation RIGHT DOWN", currentRotation + "");
             //Log.d(" - Width/2", container.getWidth()/2 + "");
-            if(isDragOnCenterDown && posXCurrentDrag < lastPosX && currentRotation > - 20 && posXCurrentDrag < 260){
-                currentRotation = currentRotation - posXCurrentDrag * 0.002f;
+
+            int center = container.getWidth()/2 - imageViewPhoto.getWidth()/2;
+            if(isDragOnCenterDown && posXCurrentDrag < lastPosX && currentRotation > - MAX_ROTATION && posXCurrentDrag < center){
+                //currentRotation = currentRotation - posXCurrentDrag * 0.004f;
+                currentRotation = currentRotation - Math.abs(posXCurrentDrag-lastPosX) * 0.1f;
                 imageViewPhoto.setRotation(currentRotation);
             }else{
                 if(isDragOnCenterDown && currentRotation < 0 && posXCurrentDrag > lastPosX){
 
-                    currentRotation = currentRotation + posXCurrentDrag * 0.002f;
+                    //currentRotation = currentRotation + posXCurrentDrag * 0.004f;
+                    currentRotation = currentRotation +Math.abs(posXCurrentDrag-lastPosX) * 0.1f;
                     if(currentRotation > 0){
                         currentRotation = 0;
                     }
@@ -628,13 +666,17 @@ public class MainActivity extends ActionBarActivity {
         // Change SIZE CIRCLES
         //------------------
         private void changeSizeCircles(DragEvent event,float posXCurrentDrag, float posYCurrentDrag){
-            if(isDragOnRightUp && lastPosY > posYCurrentDrag && currentScaleCircleRightUp < 1){
-                currentScaleCircleRightUp = currentScaleCircleRightUp + event.getY() * 0.0001f;
+
+            float difX =  posXCurrentDrag - lastPosX;
+            float difY = posYCurrentDrag - lastPosY;
+
+            if(isDragOnRightUp && lastPosY > posYCurrentDrag  && currentScaleCircleRightUp < 1){
+                currentScaleCircleRightUp = currentScaleCircleRightUp + (event.getY()+event.getX()) * 0.0001f;
                 imageViewCircleCamera.setVisibility(View.VISIBLE);
                 imageViewCircleCamera.setScaleX(currentScaleCircleRightUp);
                 imageViewCircleCamera.setScaleY(currentScaleCircleRightUp);
             }else if(isDragOnRightUp && currentScaleCircleRightUp > 0 && posYCurrentDrag > lastPosY){
-                currentScaleCircleRightUp = currentScaleCircleRightUp - event.getY() * 0.0001f;
+                currentScaleCircleRightUp = currentScaleCircleRightUp - (event.getY()+event.getX()) * 0.0001f;
                 imageViewCircleCamera.setVisibility(View.VISIBLE);
                 imageViewCircleCamera.setScaleX(currentScaleCircleRightUp);
                 imageViewCircleCamera.setScaleY(currentScaleCircleRightUp);
@@ -687,12 +729,12 @@ public class MainActivity extends ActionBarActivity {
             }
 
             if(isDragOnCenterDown && lastPosY < posYCurrentDrag && currentScaleCircleCenterDown < 1){
-                currentScaleCircleCenterDown = currentScaleCircleCenterDown + event.getY() * 0.0005f;
+                currentScaleCircleCenterDown = currentScaleCircleCenterDown + event.getY() * 0.0002f;
                 imageViewCircleDelete.setVisibility(View.VISIBLE);
                 imageViewCircleDelete.setScaleX(currentScaleCircleCenterDown);
                 imageViewCircleDelete.setScaleY(currentScaleCircleCenterDown);
             }else if(isDragOnCenterDown && currentScaleCircleCenterDown > 0 && posYCurrentDrag < lastPosY){
-                currentScaleCircleCenterDown = currentScaleCircleCenterDown - event.getY() * 0.0005f;
+                currentScaleCircleCenterDown = currentScaleCircleCenterDown - event.getY() * 0.0002f;
                 imageViewCircleDelete.setVisibility(View.VISIBLE);
                 imageViewCircleDelete.setScaleX(currentScaleCircleCenterDown);
                 imageViewCircleDelete.setScaleY(currentScaleCircleCenterDown);
@@ -713,36 +755,47 @@ public class MainActivity extends ActionBarActivity {
             switch (v.getId()){
                 case R.id.imageViewCamera:
                     showInfoDrop("Camera");
-                    imageViewPhoto.setLayoutParams(layoutParamsImage);
-                    startAnimation(imageViewPhoto, animRotateRightToCenter);
-                    startAnimation(imageViewCircleCamera, animResizeDownCircle);
+                    //imageViewPhoto.setLayoutParams(layoutParamsImage);
+
+
                     break;
                 case R.id.imageViewGallery:
                     showInfoDrop("Gallery");
-                    imageViewPhoto.setLayoutParams(layoutParamsImage);
-                    startAnimation(imageViewPhoto, animRotateLeftToCenter);
-                    startAnimation(imageViewCircleGallery, animResizeDownCircle);
+                    //imageViewPhoto.setLayoutParams(layoutParamsImage);
                     break;
                 case R.id.imageViewDelete:
                     showInfoDrop("Delete");
-                    imageViewPhoto.setLayoutParams(layoutParamsImage);
-                    startAnimation(imageViewPhoto, animSizeToOne);
-                    startAnimation(imageViewCircleDelete, animResizeDownCircle);
+                    //imageViewPhoto.setLayoutParams(layoutParamsImage);
                     break;
 
                 case R.id.imageViewShare:
                     showInfoDrop("Share");
-                    imageViewPhoto.setLayoutParams(layoutParamsImage);
-                    startAnimation(imageViewPhoto, animSizeToOneUp);
-                    startAnimation(imageViewCircleShare, animResizeDownCircle);
+                    //imageViewPhoto.setLayoutParams(layoutParamsImage);
                     break;
 
                 default:
-                    //JARROYO HOY
-                    imageViewPhoto.setLayoutParams(layoutParamsImage);
-                    configViewBounds(imageViewPhoto);
-                    zoomImageFromThumb(imageViewPhoto, selectedImageUri);
+
             }
+
+            //Jarroyo22/05
+            isDragOnRightUp = false;
+            isDragOnCenterUp = false;
+            isDragOnLefttUp = false;
+            isDragOnCenterDown = false;
+            currentRotation = 0;
+            hideCircles();
+
+            configViewBounds(imageViewPhoto);
+            zoomImageFromThumb(imageViewPhoto, selectedImageUri);
+            //JARROYO HOY
+            imageViewPhoto.setLayoutParams(layoutParamsImage);
+            imageViewPhoto.setRotation(0);
+            imageViewPhoto.setX(container.getWidth()/2 - imageViewPhoto.getWidth()/2);
+            imageViewPhoto.setY(container.getHeight()/2 - imageViewPhoto.getHeight()/2);
+            configViewBounds(imageViewPhoto);
+            currentScale = 1;
+            imageViewPhoto.setScaleX(1);
+            imageViewPhoto.setScaleY(1);
         }
 
         //ON DRAG ENTERED
@@ -798,6 +851,9 @@ public class MainActivity extends ActionBarActivity {
                     isDragOnCenterDown = false;
                     imageViewCircleCamera.setScaleX(0);
                     imageViewCircleCamera.setScaleY(0);
+                    imageViewCircleCamera.setVisibility(View.INVISIBLE);
+                    //rotateToZero(currentRotation);
+                    imageViewPhoto.setRotation(0);
 
                     break;
                 case R.id.layoutGallery:
@@ -809,6 +865,9 @@ public class MainActivity extends ActionBarActivity {
                     isDragOnCenterDown = false;
                     imageViewCircleGallery.setScaleX(0);
                     imageViewCircleGallery.setScaleY(0);
+                    imageViewCircleGallery.setVisibility(View.INVISIBLE);
+                    //rotateToZero(currentRotation);
+                    imageViewPhoto.setRotation(0);
                     break;
                 case R.id.layoutDelete:
                     //startAnimation(imageViewPhoto, animSizeToOne);
@@ -819,6 +878,8 @@ public class MainActivity extends ActionBarActivity {
                     isDragOnCenterDown = false;
                     imageViewCircleDelete.setScaleX(0);
                     imageViewCircleDelete.setScaleY(0);
+                    imageViewCircleDelete.setVisibility(View.INVISIBLE);
+                    imageViewPhoto.setRotation(0);
                     break;
                 case R.id.layoutShare:
                     //startAnimation(imageViewPhoto, animSizeToOneUp);
@@ -829,8 +890,11 @@ public class MainActivity extends ActionBarActivity {
                     isDragOnCenterDown = false;
                     imageViewCircleShare.setScaleX(0);
                     imageViewCircleShare.setScaleY(0);
+                    imageViewCircleShare.setVisibility(View.INVISIBLE);
                     break;
             }
+
+            currentRotation = 0;
         }
 
         private void showInfoDrop(String text){
@@ -889,6 +953,9 @@ public class MainActivity extends ActionBarActivity {
     // ZOOM IMAGE FROM THUMB
     //---------------------------------------------------------------------
     private void zoomImageFromThumb(final View thumbView, Uri uri) {
+
+        hideActions();
+
         // If there's an animation in progress, cancel it
         // immediately and proceed with this one.
         if (mCurrentAnimator != null) {
@@ -1008,6 +1075,9 @@ public class MainActivity extends ActionBarActivity {
 
     // ZOOM OUT
     private void zoomOut(final View thumbView){
+
+        showActions();
+
         if (mCurrentAnimator != null) {
             mCurrentAnimator.cancel();
         }
@@ -1041,6 +1111,7 @@ public class MainActivity extends ActionBarActivity {
 
             @Override
             public void onAnimationCancel(Animator animation) {
+
                 thumbView.setAlpha(1f);
                 imageViewExpanded.setVisibility(View.GONE);
                 mCurrentAnimator = null;
@@ -1050,6 +1121,82 @@ public class MainActivity extends ActionBarActivity {
         });
         set.start();
         mCurrentAnimator = set;
+
+    }
+    //--------------------------------------------------------------------------
+    // SHOW ACTIONS
+    //--------------------------------------------------------------------------
+    private void showActions(){
+        layoutCamera.startAnimation(animAlphaZeroToOne);
+        layoutGallery.startAnimation(animAlphaZeroToOne);
+        layoutDelete.startAnimation(animAlphaZeroToOne);
+        layoutShare.startAnimation(animAlphaZeroToOne);
+
+        //layoutCamera.startAnimation(animMoveViewToBottom);
+        //layoutGallery.startAnimation(animMoveViewToBottom);
+        //layoutDelete.startAnimation(animMoveViewToBottom);
+        //layoutShare.startAnimation(animMoveViewToBottom);
+
+        //layoutCamera.setVisibility(View.VISIBLE);
+        //layoutGallery.setVisibility(View.VISIBLE);
+        //layoutShare.setVisibility(View.VISIBLE);
+        //layoutDelete.setVisibility(View.VISIBLE);
+    }
+
+    //--------------------------------------------------------------------------
+    // SHOW ACTIONS
+    //--------------------------------------------------------------------------
+    private void hideActions(){
+        layoutCamera.startAnimation(animAlphaOneToZero);
+        layoutGallery.startAnimation(animAlphaOneToZero);
+        layoutDelete.startAnimation(animAlphaOneToZero);
+        layoutShare.startAnimation(animAlphaOneToZero);
+
+        //layoutCamera.startAnimation(animMoveViewToTop);
+        //layoutGallery.startAnimation(animMoveViewToTop);
+        //layoutDelete.startAnimation(animMoveViewToTop);
+        //layoutShare.startAnimation(animMoveViewToTop);
+
+        //layoutCamera.setVisibility(View.GONE);
+        //layoutGallery.setVisibility(View.GONE);
+        //layoutShare.setVisibility(View.GONE);
+        //layoutDelete.setVisibility(View.GONE);
+    }
+
+    private void rotateToZero(float currentRotation){
+        Log.d("In", "Rotate to Zero from "+currentRotation);
+        AnimationSet animSet = new AnimationSet(true);
+        animSet.setInterpolator(new DecelerateInterpolator());
+        animSet.setFillAfter(true);
+        animSet.setFillEnabled(true);
+
+        final RotateAnimation animRotate = new RotateAnimation(currentRotation, 0.0f,
+                RotateAnimation.RELATIVE_TO_SELF, 0.5f,
+                RotateAnimation.RELATIVE_TO_SELF, 0.5f);
+        long duration = Math.abs((long)(currentRotation/MAX_ROTATION)*durationZoom);
+        animRotate.setDuration(duration);
+        animRotate.setFillAfter(true);
+        animSet.addAnimation(animRotate);
+
+        imageViewPhoto.startAnimation(animSet);
+        imageViewPhoto.invalidate();
+    }
+
+    //--------------------------------------------------------------------------
+    // SHOW ACTIONS //Jarroyo22/05
+    //--------------------------------------------------------------------------
+    private void hideCircles() {
+        imageViewCircleCamera.setScaleX(0);
+        imageViewCircleCamera.setScaleY(0);
+
+        imageViewCircleGallery.setScaleX(0);
+        imageViewCircleGallery.setScaleY(0);
+
+        imageViewCircleShare.setScaleX(0);
+        imageViewCircleShare.setScaleY(0);
+
+        imageViewCircleDelete.setScaleX(0);
+        imageViewCircleDelete.setScaleY(0);
 
     }
 }

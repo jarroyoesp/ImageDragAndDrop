@@ -45,20 +45,22 @@ MERGED from com.android.support:support-v4:22.0.0:22:5
 		ADDED from AndroidManifest.xml:15:9
 activity#es.arroyo.javier.imagedd.activity.MainActivity
 ADDED from AndroidManifest.xml:17:9
-	android:label
+	android:screenOrientation
 		ADDED from AndroidManifest.xml:19:13
+	android:label
+		ADDED from AndroidManifest.xml:20:13
 	android:name
 		ADDED from AndroidManifest.xml:18:13
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
-ADDED from AndroidManifest.xml:20:13
+ADDED from AndroidManifest.xml:21:13
 action#android.intent.action.MAIN
-ADDED from AndroidManifest.xml:21:17
+ADDED from AndroidManifest.xml:22:17
 	android:name
-		ADDED from AndroidManifest.xml:21:25
+		ADDED from AndroidManifest.xml:22:25
 category#android.intent.category.LAUNCHER
-ADDED from AndroidManifest.xml:23:17
+ADDED from AndroidManifest.xml:24:17
 	android:name
-		ADDED from AndroidManifest.xml:23:27
+		ADDED from AndroidManifest.xml:24:27
 uses-sdk
 INJECTED from AndroidManifest.xml:0:0 reason: use-sdk injection requested
 MERGED from com.android.support:appcompat-v7:22.0.0:20:5

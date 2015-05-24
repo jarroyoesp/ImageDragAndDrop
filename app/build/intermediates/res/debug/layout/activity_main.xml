@@ -14,7 +14,6 @@
         android:scaleType="centerCrop" />
 
 
-
     <!-- IMAGE VIEW PHOTO-->
     <ImageView
         android:id="@+id/imageViewPhoto"
@@ -26,124 +25,139 @@
         android:id="@+id/expanded_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"/>
     <!--ICON GALLERY-->
     <RelativeLayout
         android:id="@+id/layoutGallery"
         android:layout_width="100dp"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:paddingTop="10dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:layout_height="260dp">
 
-        <ImageView
-            android:id="@+id/imageViewCircleGallery"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+        <RelativeLayout
+            android:layout_width="wrap_content"
             android:layout_centerHorizontal="true"
-            android:visibility="invisible"
-            android:layout_alignParentTop="true"
-            android:src="@drawable/circle_gallery" />
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imageViewCircleGallery"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerInParent="true"
+                android:visibility="invisible"
+                android:src="@drawable/circle_gallery" />
 
 
-        <ImageView
-            android:id="@+id/imageViewGallery"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentTop="true"
-            android:src="@drawable/ic_gallery"
-            android:onClick="onClickMainActivity" />
+            <ImageView
+                android:id="@+id/imageViewGallery"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_gallery"
+                android:onClick="onClickMainActivity" />
+        </RelativeLayout>
     </RelativeLayout>
 
     <!--SHARE-->
     <RelativeLayout
         android:id="@+id/layoutShare"
         android:layout_width="100dp"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:paddingTop="10dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:layout_height="160dp">
 
-        <ImageView
-            android:id="@+id/imageViewCircleShare"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:visibility="invisible"
+        <RelativeLayout
+            android:layout_width="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_alignParentTop="true"
-            android:src="@drawable/circle_gallery" />
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imageViewCircleShare"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:visibility="invisible"
+                android:layout_centerInParent="true"
+                android:src="@drawable/circle_share" />
 
 
-        <ImageView
-            android:id="@+id/imageViewShare"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentTop="true"
-            android:src="@drawable/ic_share"
-            android:onClick="onClickMainActivity" />
+            <ImageView
+                android:id="@+id/imageViewShare"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_share"
+                android:onClick="onClickMainActivity" />
+
+        </RelativeLayout>
     </RelativeLayout>
 
     <!--ICON CAMERA-->
     <RelativeLayout
         android:id="@+id/layoutCamera"
         android:layout_width="100dp"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="10dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:layout_height="260dp">
 
-        <ImageView
-            android:id="@+id/imageViewCircleCamera"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:visibility="invisible"
+        <RelativeLayout
+            android:layout_width="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true"
-            android:src="@drawable/circle_camera" />
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/imageViewCamera"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/ic_camera"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentTop="true"
-            android:onClick="onClickMainActivity" />
+            <ImageView
+                android:id="@+id/imageViewCircleCamera"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:visibility="invisible"
+                android:layout_centerInParent="true"
+                android:src="@drawable/circle_camera" />
+
+            <ImageView
+                android:id="@+id/imageViewCamera"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_camera"
+                android:layout_centerInParent="true"
+                android:onClick="onClickMainActivity" />
+        </RelativeLayout>
     </RelativeLayout>
 
     <!--ICON DELETE-->
     <RelativeLayout
         android:id="@+id/layoutDelete"
-        android:layout_width="160dp"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_width="match_parent"
+        android:paddingBottom="10dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="@dimen/activity_horizontal_margin"
-        android:paddingBottom="16dp"
         android:layout_centerHorizontal="true"
         android:layout_height="160dp">
 
-        <ImageView
-            android:id="@+id/imageViewCircleDelete"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:visibility="invisible"
-            android:layout_alignParentBottom="true"
+        <RelativeLayout
+            android:layout_width="wrap_content"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/circle_delete" />
+            android:layout_alignParentBottom="true"
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/imageViewDelete"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/ic_delete"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:onClick="onClickMainActivity" />
+            <ImageView
+                android:id="@+id/imageViewCircleDelete"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:visibility="invisible"
+                android:layout_centerInParent="true"
+                android:src="@drawable/circle_delete" />
+
+            <ImageView
+                android:id="@+id/imageViewDelete"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_delete"
+                android:layout_centerInParent="true"
+                android:onClick="onClickMainActivity" />
+        </RelativeLayout>
     </RelativeLayout>
 
     <ImageView

@@ -17,21 +17,25 @@ public final class R {
         public static final int abc_slide_in_top=0x7f050005;
         public static final int abc_slide_out_bottom=0x7f050006;
         public static final int abc_slide_out_top=0x7f050007;
-        public static final int card_flip_left_in=0x7f050008;
-        public static final int card_flip_left_out=0x7f050009;
-        public static final int card_flip_right_in=0x7f05000a;
-        public static final int card_flip_right_out=0x7f05000b;
-        public static final int reduce_to_zero_bottom=0x7f05000c;
-        public static final int reduce_to_zero_up=0x7f05000d;
-        public static final int resize_down_circle=0x7f05000e;
-        public static final int resize_up_circle=0x7f05000f;
-        public static final int rotate_center_to_left=0x7f050010;
-        public static final int rotate_center_to_right=0x7f050011;
-        public static final int rotate_left_to_center=0x7f050012;
-        public static final int rotate_right_to_center=0x7f050013;
-        public static final int scale_image=0x7f050014;
-        public static final int size_to_one_bottom=0x7f050015;
-        public static final int size_to_one_up=0x7f050016;
+        public static final int alpha_one_to_zero=0x7f050008;
+        public static final int alpha_zero_to_one=0x7f050009;
+        public static final int card_flip_left_in=0x7f05000a;
+        public static final int card_flip_left_out=0x7f05000b;
+        public static final int card_flip_right_in=0x7f05000c;
+        public static final int card_flip_right_out=0x7f05000d;
+        public static final int move_view_to_bottom=0x7f05000e;
+        public static final int move_view_to_top=0x7f05000f;
+        public static final int reduce_to_zero_bottom=0x7f050010;
+        public static final int reduce_to_zero_up=0x7f050011;
+        public static final int resize_down_circle=0x7f050012;
+        public static final int resize_up_circle=0x7f050013;
+        public static final int rotate_center_to_left=0x7f050014;
+        public static final int rotate_center_to_right=0x7f050015;
+        public static final int rotate_left_to_center=0x7f050016;
+        public static final int rotate_right_to_center=0x7f050017;
+        public static final int scale_image=0x7f050018;
+        public static final int size_to_one_bottom=0x7f050019;
+        public static final int size_to_one_up=0x7f05001a;
     }
     public static final class attr {
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
@@ -1158,19 +1162,19 @@ containing a value of this type.
         public static final int abc_config_showMenuShortcutsWhenKeyboardPresent=0x7f060005;
     }
     public static final class color {
-        public static final int abc_background_cache_hint_selector_material_dark=0x7f070034;
-        public static final int abc_background_cache_hint_selector_material_light=0x7f070035;
+        public static final int abc_background_cache_hint_selector_material_dark=0x7f070035;
+        public static final int abc_background_cache_hint_selector_material_light=0x7f070036;
         public static final int abc_input_method_navigation_guard=0x7f070000;
-        public static final int abc_primary_text_disable_only_material_dark=0x7f070036;
-        public static final int abc_primary_text_disable_only_material_light=0x7f070037;
-        public static final int abc_primary_text_material_dark=0x7f070038;
-        public static final int abc_primary_text_material_light=0x7f070039;
-        public static final int abc_search_url_text=0x7f07003a;
+        public static final int abc_primary_text_disable_only_material_dark=0x7f070037;
+        public static final int abc_primary_text_disable_only_material_light=0x7f070038;
+        public static final int abc_primary_text_material_dark=0x7f070039;
+        public static final int abc_primary_text_material_light=0x7f07003a;
+        public static final int abc_search_url_text=0x7f07003b;
         public static final int abc_search_url_text_normal=0x7f070001;
         public static final int abc_search_url_text_pressed=0x7f070002;
         public static final int abc_search_url_text_selected=0x7f070003;
-        public static final int abc_secondary_text_material_dark=0x7f07003b;
-        public static final int abc_secondary_text_material_light=0x7f07003c;
+        public static final int abc_secondary_text_material_dark=0x7f07003c;
+        public static final int abc_secondary_text_material_light=0x7f07003d;
         public static final int accent_material_dark=0x7f070004;
         public static final int accent_material_light=0x7f070005;
         public static final int background_floating_material_dark=0x7f070006;
@@ -1217,8 +1221,9 @@ containing a value of this type.
         public static final int secondary_text_default_material_light=0x7f07002f;
         public static final int secondary_text_disabled_material_dark=0x7f070030;
         public static final int secondary_text_disabled_material_light=0x7f070031;
-        public static final int switch_thumb_normal_material_dark=0x7f070032;
-        public static final int switch_thumb_normal_material_light=0x7f070033;
+        public static final int share=0x7f070032;
+        public static final int switch_thumb_normal_material_dark=0x7f070033;
+        public static final int switch_thumb_normal_material_light=0x7f070034;
     }
     public static final class dimen {
         public static final int abc_action_bar_default_height_material=0x7f080000;
@@ -1331,10 +1336,11 @@ containing a value of this type.
         public static final int circle_camera=0x7f020037;
         public static final int circle_delete=0x7f020038;
         public static final int circle_gallery=0x7f020039;
-        public static final int ic_camera=0x7f02003a;
-        public static final int ic_delete=0x7f02003b;
-        public static final int ic_gallery=0x7f02003c;
-        public static final int ic_share=0x7f02003d;
+        public static final int circle_share=0x7f02003a;
+        public static final int ic_camera=0x7f02003b;
+        public static final int ic_delete=0x7f02003c;
+        public static final int ic_gallery=0x7f02003d;
+        public static final int ic_share=0x7f02003e;
     }
     public static final class id {
         public static final int action_bar=0x7f090031;
