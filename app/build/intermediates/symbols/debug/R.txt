@@ -22,9 +22,11 @@ int anim rotate_center_to_left 0x7f050014
 int anim rotate_center_to_right 0x7f050015
 int anim rotate_left_to_center 0x7f050016
 int anim rotate_right_to_center 0x7f050017
-int anim scale_image 0x7f050018
-int anim size_to_one_bottom 0x7f050019
-int anim size_to_one_up 0x7f05001a
+int anim scale_background_big 0x7f050018
+int anim scale_background_small 0x7f050019
+int anim scale_image 0x7f05001a
+int anim size_to_one_bottom 0x7f05001b
+int anim size_to_one_up 0x7f05001c
 int attr actionBarDivider 0x7f01005a
 int attr actionBarItemBackground 0x7f01005b
 int attr actionBarPopupTheme 0x7f010054

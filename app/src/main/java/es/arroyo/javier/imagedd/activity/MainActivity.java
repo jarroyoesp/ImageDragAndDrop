@@ -91,6 +91,8 @@ public class MainActivity extends ActionBarActivity {
     private Animation animAlphaOneToZero;
     private Animation animMoveViewToTop;
     private Animation animMoveViewToBottom;
+    private Animation animScaleBackgroundBig;
+    private Animation animScaleBackgroundSmall;
     private Animator mCurrentAnimator;
 
     private int mShortAnimationDuration = 500;
@@ -109,7 +111,6 @@ public class MainActivity extends ActionBarActivity {
     final Rect finalBounds = new Rect();
     final Point globalOffset = new Point();
     private float startScale;
-    //private final float startScaleFinal;
 
 
 
@@ -153,13 +154,13 @@ public class MainActivity extends ActionBarActivity {
 
         //CLICK LISTENER
         //--------------
-        imageViewPhoto.setOnLongClickListener(new View.OnLongClickListener() {
+        imageViewPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
+            public void onClick(View v) {
                 //imageViewPhoto.startAnimation(animScale);
                 //startDragAndDrop();
                 zoomImageFromThumb(imageViewPhoto, selectedImageUri);
-                return true;
+                //return true;
             }
         });
         configViewBounds(imageViewPhoto);
@@ -258,6 +259,14 @@ public class MainActivity extends ActionBarActivity {
         animMoveViewToBottom= AnimationUtils.loadAnimation(this,
                 R.anim.move_view_to_bottom);
         animMoveViewToBottom.setFillAfter(true);
+
+        animScaleBackgroundBig= AnimationUtils.loadAnimation(this,
+                R.anim.scale_background_big);
+        animScaleBackgroundBig.setFillAfter(true);
+
+        animScaleBackgroundSmall= AnimationUtils.loadAnimation(this,
+                R.anim.scale_background_small);
+        animScaleBackgroundSmall.setFillAfter(true);
     }
 
     //------------------------------------------------------------------------------------
@@ -955,6 +964,7 @@ public class MainActivity extends ActionBarActivity {
     private void zoomImageFromThumb(final View thumbView, Uri uri) {
 
         hideActions();
+        imageViewBackground.startAnimation(animScaleBackgroundSmall);
 
         // If there's an animation in progress, cancel it
         // immediately and proceed with this one.
@@ -1077,7 +1087,8 @@ public class MainActivity extends ActionBarActivity {
     private void zoomOut(final View thumbView){
 
         showActions();
-
+        //imageViewBackground.setAnimation(animScaleBackgroundBig);
+        imageViewBackground.startAnimation(animScaleBackgroundBig);
         if (mCurrentAnimator != null) {
             mCurrentAnimator.cancel();
         }
@@ -1105,8 +1116,8 @@ public class MainActivity extends ActionBarActivity {
                 thumbView.setAlpha(1f);
                 imageViewExpanded.setVisibility(View.GONE);
                 mCurrentAnimator = null;
-
                 startDragAndDrop();
+
             }
 
             @Override
@@ -1115,6 +1126,8 @@ public class MainActivity extends ActionBarActivity {
                 thumbView.setAlpha(1f);
                 imageViewExpanded.setVisibility(View.GONE);
                 mCurrentAnimator = null;
+
+                zoomImageFromThumb(imageViewPhoto,fileUri);
 
 
             }

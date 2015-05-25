@@ -33,9 +33,11 @@ public final class R {
         public static final int rotate_center_to_right=0x7f050015;
         public static final int rotate_left_to_center=0x7f050016;
         public static final int rotate_right_to_center=0x7f050017;
-        public static final int scale_image=0x7f050018;
-        public static final int size_to_one_bottom=0x7f050019;
-        public static final int size_to_one_up=0x7f05001a;
+        public static final int scale_background_big=0x7f050018;
+        public static final int scale_background_small=0x7f050019;
+        public static final int scale_image=0x7f05001a;
+        public static final int size_to_one_bottom=0x7f05001b;
+        public static final int size_to_one_up=0x7f05001c;
     }
     public static final class attr {
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
