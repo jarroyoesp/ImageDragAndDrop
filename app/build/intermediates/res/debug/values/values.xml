@@ -43,6 +43,7 @@
     <!-- From: file:/Users/JavierArroyo/Desktop/AndroidProjectsGit/ImageDradAndDrop/app/src/main/res/values/color.xml -->
     <eat-comment/>
     <color name="gallery">#9C27B0</color>
+    <color name="gray">#585858</color>
     <!-- From: file:/Users/JavierArroyo/Desktop/AndroidProjectsGit/ImageDradAndDrop/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/res/values/values.xml -->
     <eat-comment/>
     <color name="highlighted_text_material_dark">#6680cbc4</color>
@@ -194,8 +195,12 @@
     <eat-comment/>
     <string name="action_settings">Settings</string>
     <string name="app_name">Image D&amp;D</string>
+    <string name="camera">Camera</string>
+    <string name="delete">Delete</string>
     <string name="error_getting_photo">Error al obtener la imagen de la galería. Intentelo con otra foto</string>
+    <string name="gallery">Gallery</string>
     <string name="hello_world">Hello world!</string>
+    <string name="share">Share</string>
     <!-- From: file:/Users/JavierArroyo/Desktop/AndroidProjectsGit/ImageDradAndDrop/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/res/values/values.xml -->
     <eat-comment/>
     <style name="Animation.AppCompat.DropDownUp" parent="Base.Animation.AppCompat.DropDownUp"/>

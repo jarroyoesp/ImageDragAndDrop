@@ -59,6 +59,19 @@
                 android:layout_centerInParent="true"
                 android:src="@drawable/ic_gallery"
                 android:onClick="onClickMainActivity" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:text="@string/gallery"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/imageViewGallery"
+                android:layout_centerHorizontal="true"
+                android:shadowColor="@color/gray"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="1"/>
         </RelativeLayout>
     </RelativeLayout>
 
@@ -93,6 +106,19 @@
                 android:src="@drawable/ic_share"
                 android:onClick="onClickMainActivity" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:text="@string/share"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/imageViewShare"
+                android:layout_centerHorizontal="true"
+                android:shadowColor="@color/gray"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="1"/>
+
         </RelativeLayout>
     </RelativeLayout>
 
@@ -126,6 +152,19 @@
                 android:src="@drawable/ic_camera"
                 android:layout_centerInParent="true"
                 android:onClick="onClickMainActivity" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:text="@string/camera"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/imageViewCamera"
+                android:layout_centerHorizontal="true"
+                android:shadowColor="@color/gray"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="1"/>
         </RelativeLayout>
     </RelativeLayout>
 
@@ -136,7 +175,7 @@
         android:paddingBottom="10dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_height="160dp">
+        android:layout_height="200dp">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -159,6 +198,19 @@
                 android:src="@drawable/ic_delete"
                 android:layout_centerInParent="true"
                 android:onClick="onClickMainActivity" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:text="@string/delete"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/imageViewDelete"
+                android:layout_centerHorizontal="true"
+                android:shadowColor="@color/gray"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="1"/>
         </RelativeLayout>
     </RelativeLayout>
 
@@ -170,6 +222,22 @@
         android:layout_height="150dp"
         android:src="@drawable/ic_camera"
         android:scaleType="centerInside" />
+
+    <!--<LinearLayout
+        android:id="@+id/layoutUp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/white"></LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutBottom"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white"></LinearLayout>-->
 
 
 </RelativeLayout>
